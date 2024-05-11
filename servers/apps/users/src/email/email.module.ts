@@ -1,9 +1,11 @@
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { EmailService } from './email.service';
+
+@Global()
 @Module({
   imports: [
     MailerModule.forRootAsync({
@@ -17,13 +19,13 @@ import { EmailService } from './email.service';
           },
         },
         defaults: {
-          frpm: 'SundarbanShop',
+          from: 'SundarbanShop',
         },
         template: {
           dir: join(__dirname, '../../../../servers/email-templates'),
           adapter: new EjsAdapter(),
           options: {
-            strict: true,
+            strict: false,
           },
         },
       }),
@@ -31,5 +33,6 @@ import { EmailService } from './email.service';
     }),
   ],
   providers: [EmailService],
+  exports: [EmailService],
 })
 export class EmailModule {}

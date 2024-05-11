@@ -28,14 +28,23 @@ export class User {
   email: string;
 
   @Field()
+  password: string;
+
+  @Field(() => Avatars, { nullable: true })
   avatar?: Avatars | null;
 
   @Field()
   role: string;
 
-  @Field()
-  createdAt: string;
+  @Field({ nullable: true })
+  address: string;
+
+  @Field({ nullable: true })
+  phone_number: string;
 
   @Field()
-  updatedAt: string;
+  createdAt: Date;
+
+  @Field()
+  updatedAt: Date;
 }
