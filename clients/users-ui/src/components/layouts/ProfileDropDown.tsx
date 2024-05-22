@@ -1,10 +1,11 @@
 "use client";
+import AuthPage from "@/src/pages/AuthPage";
 import {
-    Avatar,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownTrigger,
+  Avatar,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
 } from "@nextui-org/react";
 import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
@@ -86,7 +87,7 @@ const ProfileDropDown = () => {
           onClick={() => setOpen(!open)}
         />
       )}
-      {/* {open && <AuthScreen setOpen={setOpen} />} */}
+      {open && <AuthPage setOpen={setOpen} />}
     </div>
   );
 };
