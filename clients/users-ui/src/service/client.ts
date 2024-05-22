@@ -3,7 +3,7 @@ import { ApolloClient, ApolloLink, createHttpLink, InMemoryCache } from "@apollo
 
 
 const httpLink = createHttpLink({
-    uri: process.env.SERVER_ENDPOINT
+  uri: process.env.NEXT_PUBLIC_SERVER_ENDPOINT,
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {

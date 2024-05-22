@@ -1,7 +1,10 @@
+import { REGISTER_USER } from "@/src/graphql/mutation/registerUser";
 import styles from "@/src/utils/styles";
+import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { AiFillGithub, AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
@@ -11,8 +14,8 @@ const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8, "Password must be at least 8characters long!"),
   phone_number: z
-    .number()
-    .min(10, "Phone number must be at least 11 characters!"),
+    .string()
+    .min(11, "Phone number must be at least 11 characters!"),
 });
 
 type SignUpSchema = z.infer<typeof formSchema>;
@@ -22,7 +25,7 @@ const Signup = ({
 }: {
   setActiveState: (e: string) => void;
 }) => {
-//   const [registerUserMutation, { loading }] = useMutation(REGISTER_USER);
+  const [registerUserMutation, { loading }] = useMutation(REGISTER_USER);
 
   const {
     register,
@@ -35,20 +38,24 @@ const Signup = ({
   const [show, setShow] = useState(false);
 
   const onSubmit = async (data: SignUpSchema) => {
-    // try {
-    //   const response = await registerUserMutation({
-    //     variables: data,
-    //   });
-    //   localStorage.setItem(
-    //     "activation_token",
-    //     response.data.register.activation_token
-    //   );
-    // //   toast.success("Please check your email to activate your account!");
-    //   reset();
-    //   setActiveState("Verification");
-    // } catch (error: any) {
-    // //   toast.error(error.message);
-    // }
+    console.log("data", data);
+     try {
+      const response = await registerUserMutation({
+        variables: data,
+        // onCompleted: () =>{
+        //   toast.success('Please check your email to activate yout account')
+        // },
+        // onError: () =>{
+        //   toast.error('Please check your email to activate yout account')
+        // }
+      })
+      console.log("response", response);
+       toast.success("Please check your email to activate yout account");
+       reset();
+       setActiveState('Verification')
+     } catch (error: any) {
+      toast.error(error.message);
+     }
   };
 
   return (
@@ -79,8 +86,8 @@ const Signup = ({
         <div className="w-full relative mt-3">
           <label className={`${styles.label}`}>Enter your Phone Number</label>
           <input
-            {...register("phone_number", { valueAsNumber: true })}
-            type="number"
+            {...register("phone_number")}
+            type="text"
             placeholder="+8801*******"
             className={`${styles.input}`}
           />
