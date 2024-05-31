@@ -50,9 +50,13 @@ const Signup = ({
         // }
       })
       console.log("response", response);
+      localStorage.setItem(
+        "activationToken",
+        response.data.register.activationToken
+      );
        toast.success("Please check your email to activate yout account");
-       reset();
        setActiveState('Verification')
+       reset();
      } catch (error: any) {
       toast.error(error.message);
      }
@@ -127,8 +131,8 @@ const Signup = ({
         <div className="w-full mt-5">
           <input
             type="submit"
-            value="Sign Up"
-            // disabled={isSubmitting || loading}
+            value={(isSubmitting || loading) ? 'Loading....' : 'Sign Up'}
+            disabled={isSubmitting || loading}
             className={`${styles.button} mt-3`}
           />
         </div>
